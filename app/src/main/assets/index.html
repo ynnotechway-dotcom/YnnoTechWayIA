@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050914">
+<title>YnnoTechWay IA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#050914;color:#fff;font-family:Arial,sans-serif}
+header{padding:25px 20px;background:#0b1428;border-bottom:1px solid #183b60}
+.logo{font-size:13px;letter-spacing:3px;color:#29c9f3}
+h1{font-size:25px;margin:10px 0}
+h2{font-size:23px}
+p{color:#aabbd0;line-height:1.6}
+main{padding:20px;max-width:600px;margin:auto}
+.card{background:#101a2d;border:1px solid #203954;border-radius:18px;padding:18px;margin:18px 0}
+label{display:block;margin:15px 0 8px;font-weight:bold}
+textarea,select{width:100%;padding:13px;border-radius:10px;border:1px solid #304b6b;background:#071020;color:white;font-size:15px}
+textarea{height:120px;resize:vertical}
+button{width:100%;padding:15px;margin-top:15px;border:0;border-radius:10px;background:#12bce8;color:#04101d;font-weight:bold;font-size:16px}
+#status{font-size:14px;color:#43d7ff}
+small{color:#91a5bf}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">YNNOTECHWAY</div>
+<h1>YnnoTechWay IA</h1>
+<p>Ton studio de création vidéo intelligent.</p>
+</header>
+<main>
+<h2>Imagine ta prochaine vidéo.</h2>
+<p>Décris ton idée et prépare ton projet vidéo.</p>
+<div class="card">
+<label for="prompt">Description de la vidéo</label>
+<textarea id="prompt" placeholder="Exemple : publicité cinématographique pour un produit..."></textarea>
+<label for="format">Format</label>
+<select id="format">
+<option value="9:16">Vertical — TikTok et Reels</option>
+<option value="16:9">Horizontal — YouTube</option>
+<option value="1:1">Carré — Réseaux sociaux</option>
+</select>
+<label for="duration">Durée souhaitée</label>
+<select id="duration">
+<option>10 secondes</option>
+<option>15 secondes</option>
+<option>30 secondes</option>
+<option>60 secondes</option>
+</select>
+<button onclick="prepare()">Préparer mon projet</button>
+<p id="status" role="status"></p>
+<small>Version de développement : moteur vidéo IA à intégrer.</small>
+</div>
+<button onclick="save()">Enregistrer mon projet</button>
+</main>
+<script>
+function data(){
+ return {
+  prompt:document.getElementById('prompt').value,
+  format:document.getElementById('format').value,
+  duration:document.getElementById('duration').value
+ };
+}
+function prepare(){
+ const d=data();
+ if(!d.prompt.trim()){
+  document.getElementById('status').textContent='Décris d’abord ta vidéo.';
+  return;
+ }
+ try{localStorage.setItem('ynno-project',JSON.stringify(d));}catch(e){}
+ document.getElementById('status').textContent='Projet préparé. Génération IA non encore intégrée.';
+}
+function save(){
+ try{
+  localStorage.setItem('ynno-project',JSON.stringify(data()));
+  document.getElementById('status').textContent='Projet enregistré sur cet appareil.';
+ }catch(e){
+  document.getElementById('status').textContent='Enregistrement indisponible.';
+ }
+}
+</script>
+</body>
+</html>
