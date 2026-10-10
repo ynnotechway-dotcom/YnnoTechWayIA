@@ -1,10 +1,23 @@
-name: Build YnnoTechWay IA
+steps:
+  - uses: actions/checkout@v4
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  - uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: '17'
 
-permissions:
-  contents: read
+  - uses: android-actions/setup-android@v3
+
+  - name: Install Android SDK and accept licenses
+    run: |
+      yes | sdkmanager --licenses
+      sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+  - name: Build APK
+    run: gradle assembleDebug --no-daemon
+
+  - uses: actions/upload-artifact@v4
+    with:
+      name: YnnoTechWay-IA-APK
+      path: app/build/outputs/apk/debug/app-debug.apk
+      if-no-files-found: error
